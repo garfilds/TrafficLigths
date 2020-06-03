@@ -10,11 +10,44 @@ using System.Windows.Forms;
 
 namespace TrafficLigths
 {
-    public partial class Form1 : Form
+    public partial class TrafficLights : Form
     {
-        public Form1()
+        private Timer timerSwitch;
+        
+        public TrafficLights()
         {
             InitializeComponent();
+            InitializeTrafficLights();
+            InitializeTimerSwitch();
         }
+
+        private void InitializeTimerSwitch()
+        {
+            timerSwitch = new Timer();
+            timerSwitch.Interval = 1000;
+            timerSwitch.Tick += new EventHandler(TimerSwitch_Tick);
+            timerSwitch.Start();
+        }
+
+        private void TimerSwitch_Tick(object sender, EventArgs e)
+        {
+            if (redLigth.BackColor == Color.Gray)
+            {
+                redLigth.BackColor = Color.Red;
+            }
+            else 
+            {
+                redLigth.BackColor = Color.Gray;
+            }
+        }
+
+        private void InitializeTrafficLights()
+        {
+            redLigth.BackColor = Color.Gray;
+            yellowLigth.BackColor = Color.Gray;
+            greenLigth.BackColor = Color.Gray;
+        }
+
+       
     }
 }

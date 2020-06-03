@@ -1,6 +1,6 @@
 ﻿namespace TrafficLigths
 {
-    partial class Form1
+    partial class TrafficLights
     {
         /// <summary>
         /// Required designer variable.
@@ -38,7 +38,7 @@
             // 
             // redLigth
             // 
-            this.redLigth.Location = new System.Drawing.Point(12, 12);
+            this.redLigth.Location = new System.Drawing.Point(21, 20);
             this.redLigth.Name = "redLigth";
             this.redLigth.Size = new System.Drawing.Size(130, 130);
             this.redLigth.TabIndex = 0;
@@ -46,7 +46,7 @@
             // 
             // yellowLigth
             // 
-            this.yellowLigth.Location = new System.Drawing.Point(12, 152);
+            this.yellowLigth.Location = new System.Drawing.Point(21, 160);
             this.yellowLigth.Name = "yellowLigth";
             this.yellowLigth.Size = new System.Drawing.Size(130, 130);
             this.yellowLigth.TabIndex = 1;
@@ -54,21 +54,21 @@
             // 
             // greenLigth
             // 
-            this.greenLigth.Location = new System.Drawing.Point(12, 293);
+            this.greenLigth.Location = new System.Drawing.Point(21, 301);
             this.greenLigth.Name = "greenLigth";
             this.greenLigth.Size = new System.Drawing.Size(130, 130);
             this.greenLigth.TabIndex = 2;
             this.greenLigth.TabStop = false;
             // 
-            // Form1
+            // TrafficLights
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(155, 435);
+            this.ClientSize = new System.Drawing.Size(174, 459);
             this.Controls.Add(this.greenLigth);
             this.Controls.Add(this.yellowLigth);
             this.Controls.Add(this.redLigth);
-            this.Name = "Form1";
+            this.Name = "TrafficLights";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.redLigth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.yellowLigth)).EndInit();
