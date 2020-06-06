@@ -18,7 +18,8 @@ namespace TrafficLigths
             InitializeAddSectTimer();
             InitializeOffMode();
         }
-        
+
+        //Initializing stuff
         private void InitializeTrafficLights()
         {
             redLigth.BackColor = Color.Gray;
@@ -50,7 +51,7 @@ namespace TrafficLigths
             offMode.Start();
         }
 
-        
+        //Timers
         private void offMode_Tick(object sender, EventArgs e)
         {
             if (yellowLigth.BackColor == Color.Gray)
@@ -125,6 +126,7 @@ namespace TrafficLigths
             }
         }
 
+        //ON and OFF
         private void button1_Click(object sender, EventArgs e)
         {
             if (yellowLigth.BackColor == Color.Yellow)
