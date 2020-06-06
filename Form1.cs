@@ -8,19 +8,23 @@ namespace TrafficLigths
     {
         private Timer timerSwitch;
         private Timer offMode;
+        private Timer addSectTimer;
 
         public TrafficLights()
         {
             InitializeComponent();
             InitializeTrafficLights();
             InitializeTimerSwitch();
+            InitializeAddSectTimer();
             InitializeOffMode();
         }
+        
         private void InitializeTrafficLights()
         {
             redLigth.BackColor = Color.Gray;
             yellowLigth.BackColor = Color.Gray;
             greenLigth.BackColor = Color.Gray;
+            addSectRigth.BackColor = Color.Gray;
         }
         private void InitializeTimerSwitch()
         {
@@ -29,15 +33,24 @@ namespace TrafficLigths
             timerSwitch.Tick += new EventHandler(TimerSwitch_Tick);
 
         }
-        
+        private void InitializeAddSectTimer()
+        {
+            addSectTimer = new Timer();
+
+            addSectTimer.Tick += new EventHandler(addSectTimer_Tick);
+            addSectTimer.Interval = 4000;
+            addSectTimer.Stop();
+        }
         private void InitializeOffMode()
         {
             offMode = new Timer();
 
             offMode.Tick += new EventHandler(offMode_Tick);
-            offMode.Start();
             offMode.Interval = 500;
+            offMode.Start();
         }
+
+        
         private void offMode_Tick(object sender, EventArgs e)
         {
             if (yellowLigth.BackColor == Color.Gray)
@@ -48,6 +61,20 @@ namespace TrafficLigths
             {
                 yellowLigth.BackColor = Color.Gray;
             }
+        }
+        
+        
+        private void addSectTimer_Tick(object sender, EventArgs e)
+        {
+            if (redLigth.BackColor == Color.Red) 
+            {
+                addSectRigth.BackColor = Color.Green;
+            }
+            else if (greenLigth.BackColor == Color.Green) 
+            {
+                addSectRigth.BackColor = Color.Gray;
+            }
+            
         }
 
 
@@ -100,20 +127,31 @@ namespace TrafficLigths
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (yellowLigth.BackColor == Color.Yellow)
+            {
+                yellowLigth.BackColor = Color.Gray;
+                redLigth.BackColor = Color.Red;
+            }
             offMode.Stop();
+            addSectTimer.Start();
             timerSwitch.Start();
             redLigth.BackColor = Color.Red;
             yellowLigth.BackColor = Color.Gray;
             greenLigth.BackColor = Color.Gray;
+            addSectRigth.BackColor = Color.Gray;
+            
         }
 
+        
         private void button2_Click(object sender, EventArgs e)
         {
             offMode.Start();
             timerSwitch.Stop();
+            addSectTimer.Stop();
             redLigth.BackColor = Color.Gray;
             yellowLigth.BackColor = Color.Gray;
             greenLigth.BackColor = Color.Gray;
+            addSectRigth.BackColor = Color.Gray;
         }
     }
 }
