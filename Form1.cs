@@ -31,6 +31,7 @@ namespace TrafficLigths
         private void InitializeTimerSwitch()
         {
             timerSwitch = new Timer();
+            timerSwitch.Interval = 7000;
 
             timerSwitch.Tick += new EventHandler(TimerSwitch_Tick);
 
