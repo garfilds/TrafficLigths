@@ -6,45 +6,200 @@ namespace TrafficLigths
 {
     public partial class TrafficLights : Form
     {
-        private Timer timerSwitch;
-        private Timer offMode;
-        private Timer addSectTimer;
+        public Timer timerSwitch = null;
+        public Timer timerBlink = null;
+        public Timer pedestrianTimerBlink = null;
+        public Timer offMode;
+        public Timer timerPop = null;
+        public int timeCounter = 0;
+
+        public PictureBox lightToBlink = null;
+        public Color colorToCheck = Color.Gray;
+
+        public PictureBox pedestrianLightToBlink = null;
+        public Color pedestrianColorToCheck = Color.Gray;
+
 
         public TrafficLights()
         {
             InitializeComponent();
             InitializeTrafficLights();
-            InitializeTimerSwitch();
-            InitializeAddSectTimer();
             InitializeOffMode();
-
+            InitializeTimerPop();
+            InitializeTimerSwitch();
+            InitializeTimerBlink();
+            InitializePedestrianTimerBlink();
         }
 
-        //Initializing stuff
-        private void InitializeTrafficLights()
+
+        public void InitializeTrafficLights()
         {
-            redLigth.BackColor = Color.Gray;
-            yellowLigth.BackColor = Color.Gray;
-            greenLigth.BackColor = Color.Gray;
-            addSectRigth.BackColor = Color.Gray;
+            RedLight.BackColor = Color.Gray;
+            YellowLight.BackColor = Color.Gray;
+            GreenLight.BackColor = Color.Gray;
+            AddSectRigth.BackColor = Color.Gray;
+            pedestrianGreen.BackColor = Color.Gray;
+            pedestrianRed.BackColor = Color.Gray;
+            tramLigth1.BackColor = Color.Gray;
+            tramLigth2.BackColor = Color.Gray;
+            tramLigth3.BackColor = Color.Gray;
+            tramLigth4.BackColor = Color.Gray;
+
+            Form2 form2 = new Form2();
+            form2.Show();
+
         }
-        private void InitializeTimerSwitch()
+        public void InitializeTimerPop() 
+        {
+            timerPop = new Timer();
+            timerPop.Interval = 1000;
+            timerPop.Tick += new EventHandler(timerPop_Tick);
+            
+        }
+        public void InitializeTimerSwitch()
         {
             timerSwitch = new Timer();
-            timerSwitch.Interval = 7000;
-
+            timerSwitch.Interval = 1000;
             timerSwitch.Tick += new EventHandler(TimerSwitch_Tick);
-
         }
-        private void InitializeAddSectTimer()
+        public void InitializeTimerBlink()
         {
-            addSectTimer = new Timer();
-
-            addSectTimer.Tick += new EventHandler(addSectTimer_Tick);
-            addSectTimer.Interval = 4000;
-            addSectTimer.Stop();
+            timerBlink = new Timer();
+            timerBlink.Interval = 200;
+            timerBlink.Tick += new EventHandler(TimerBlink_Tick);
         }
-        private void InitializeOffMode()
+        public void InitializePedestrianTimerBlink()
+        {
+            pedestrianTimerBlink = new Timer();
+            pedestrianTimerBlink.Interval = 200;
+            pedestrianTimerBlink.Tick += new EventHandler(pedestrianTimerBlink_Tick);
+        }
+        public void TimerBlink_Tick(object sender, EventArgs e)
+        {
+            if (lightToBlink.BackColor == Color.Gray)
+            {
+                lightToBlink.BackColor = colorToCheck;
+            }
+            else
+            {
+                lightToBlink.BackColor = Color.Gray;
+            }
+        }
+        public void pedestrianTimerBlink_Tick(object sender, EventArgs e)
+        {
+            if (pedestrianLightToBlink.BackColor == Color.Gray)
+            {
+                pedestrianLightToBlink.BackColor = colorToCheck;
+            }
+            else
+            {
+                pedestrianLightToBlink.BackColor = Color.Gray;
+            }
+        }
+        public void StartBlinking(PictureBox light, Color color)
+        {
+            lightToBlink = light;
+            colorToCheck = color;
+            timerBlink.Start();
+        }
+        public void pedestrianStartBlinking(PictureBox light, Color color)
+        {
+            pedestrianLightToBlink = light;
+            pedestrianColorToCheck = color;
+            pedestrianTimerBlink.Start();
+        }
+        public void StopBlinking()
+        {
+            timerBlink.Stop();
+
+        }
+        public void PedestrianStopBlinking()
+        {
+            pedestrianTimerBlink.Stop();
+        }
+
+        public void timerPop_Tick(object sender, EventArgs e) 
+        {
+            PlaySound("Trafic_lights_sound_SINGLE");
+        }
+
+        public void TimerSwitch_Tick(object sender, EventArgs e)
+        {
+            SwitchLights();
+        }
+
+
+        public void SwitchLights()
+        {
+            switch (timeCounter)
+            {
+                case 0:
+                    timerPop.Interval = 1000;
+                    RedLight.BackColor = Color.Red;
+                    tramLigth1.BackColor = Color.Yellow;
+                    tramLigth2.BackColor = Color.Yellow;
+                    tramLigth3.BackColor = Color.Yellow;
+                    tramLigth4.BackColor = Color.Gray;
+                    pedestrianRed.BackColor = Color.Red;
+                    pedestrianGreen.BackColor = Color.Gray;
+                    break;
+                case 2:
+                    AddSectRigth.BackColor = Color.Green;
+                    tramLigth1.BackColor = Color.Gray;
+                    tramLigth2.BackColor = Color.Gray;
+                    tramLigth3.BackColor = Color.Yellow;
+                    tramLigth4.BackColor = Color.Yellow;
+                    break;
+                case 3:
+                    YellowLight.BackColor = Color.Yellow;
+                    //RedLight.BackColor = Color.Gray;
+                    break;
+                case 5:
+                    timerPop.Interval = 100;
+                    RedLight.BackColor = Color.Gray;
+                    YellowLight.BackColor = Color.Gray;
+                    GreenLight.BackColor = Color.Green;
+                    pedestrianRed.BackColor = Color.Gray;
+                    pedestrianGreen.BackColor = Color.Green;
+                    break;
+                case 6:
+                    AddSectRigth.BackColor = Color.Gray;
+                    tramLigth1.BackColor = Color.Gray;
+                    tramLigth2.BackColor = Color.Yellow;
+                    tramLigth3.BackColor = Color.Yellow;
+                    tramLigth4.BackColor = Color.Yellow;
+                    break;
+                case 7:
+                    StartBlinking(GreenLight, Color.Green);
+                    break;
+                case 9:
+                    StopBlinking();
+                    pedestrianStartBlinking(pedestrianGreen, Color.Green);
+                    YellowLight.BackColor = Color.Yellow;
+                    GreenLight.BackColor = Color.Gray;
+                    break;
+                case 11:
+                    timerPop.Interval = 1000;
+                    PedestrianStopBlinking();
+                    YellowLight.BackColor = Color.Gray;
+                    RedLight.BackColor = Color.Red;
+                    tramLigth1.BackColor = Color.Yellow;
+                    tramLigth2.BackColor = Color.Yellow;
+                    tramLigth3.BackColor = Color.Yellow;
+                    tramLigth4.BackColor = Color.Gray;
+                    pedestrianRed.BackColor = Color.Red;
+                    pedestrianGreen.BackColor = Color.Gray;
+                    timeCounter = -1;
+                    break;
+            }
+            timeCounter++;
+        }
+
+
+
+        //OFF MODE BROKEN!
+
+        public void InitializeOffMode()
         {
             offMode = new Timer();
 
@@ -52,110 +207,90 @@ namespace TrafficLigths
             offMode.Interval = 500;
             offMode.Start();
         }
-
-        //Timers
-        private void offMode_Tick(object sender, EventArgs e)
+        public void offMode_Tick(object sender, EventArgs e)
         {
-            if (yellowLigth.BackColor == Color.Gray)
+            if (YellowLight.BackColor == Color.Gray)
             {
-                yellowLigth.BackColor = Color.Yellow;
+                YellowLight.BackColor = Color.Yellow;
             }
             else
             {
-                yellowLigth.BackColor = Color.Gray;
+                YellowLight.BackColor = Color.Gray;
             }
         }
-
-
-        private void addSectTimer_Tick(object sender, EventArgs e)
+        public void PlaySound(string soundName)
         {
-            if (redLigth.BackColor == Color.Red)
-            {
-                addSectRigth.BackColor = Color.Green;
-            }
-            else if (greenLigth.BackColor == Color.Green)
-            {
-                addSectRigth.BackColor = Color.Gray;
-            }
-
+            System.IO.Stream str = (System.IO.Stream)Properties.Resources.ResourceManager.GetObject(soundName);
+            System.Media.SoundPlayer snd = new System.Media.SoundPlayer(str);
+            snd.Play();
         }
 
-
-        private void TimerSwitch_Tick(object sender, EventArgs e)
-        {
-
-            /*if (redLigth.BackColor == Color.Gray)
-            {
-                redLigth.BackColor = Color.Red;
-            }
-            else 
-            {
-                redLigth.BackColor = Color.Gray;
-            }*/
-
-
-            if (greenLigth.BackColor == Color.Green)
-            {
-                timerSwitch.Interval = 2000;
-                redLigth.BackColor = Color.Gray;
-                yellowLigth.BackColor = Color.Yellow;
-                greenLigth.BackColor = Color.Gray;
-            }
-            else if (yellowLigth.BackColor == Color.Yellow)
-            {
-
-                if (redLigth.BackColor == Color.Red)
-                {
-                    timerSwitch.Interval = 7000;
-                    redLigth.BackColor = Color.Gray;
-                    yellowLigth.BackColor = Color.Gray;
-                    greenLigth.BackColor = Color.Green;
-                }
-                else
-                {
-                    timerSwitch.Interval = 7000;
-                    redLigth.BackColor = Color.Red;
-                    yellowLigth.BackColor = Color.Gray;
-                    greenLigth.BackColor = Color.Gray;
-                }
-            }
-            else if (redLigth.BackColor == Color.Red)
-            {
-                timerSwitch.Interval = 2000;
-                redLigth.BackColor = Color.Red;
-                yellowLigth.BackColor = Color.Yellow;
-                greenLigth.BackColor = Color.Gray;
-            }
-        }
-
-        //ON and OFF
-        private void button1_Click(object sender, EventArgs e)
-        {
-            InitializeOnState();
-        }
-        private void InitializeOnState() 
+        public void Turn_On()
         {
             offMode.Stop();
-            yellowLigth.BackColor = Color.Gray;
-            redLigth.BackColor = Color.Red;
-            addSectTimer.Start();
+            timerPop.Start();
             timerSwitch.Start();
-            redLigth.BackColor = Color.Red;
-            yellowLigth.BackColor = Color.Gray;
-            greenLigth.BackColor = Color.Gray;
-            addSectRigth.BackColor = Color.Gray;
+            RedLight.BackColor = Color.Gray;
+            YellowLight.BackColor = Color.Gray;
+            GreenLight.BackColor = Color.Gray;
+            AddSectRigth.BackColor = Color.Gray;
+            pedestrianGreen.BackColor = Color.Gray;
+            pedestrianRed.BackColor = Color.Gray;
+            tramLigth1.BackColor = Color.Gray;
+            tramLigth2.BackColor = Color.Gray;
+            tramLigth3.BackColor = Color.Gray;
+            tramLigth4.BackColor = Color.Gray;
         }
 
-        
-        private void button2_Click(object sender, EventArgs e)
+        public void Turn_Off()
         {
             offMode.Start();
+            timerPop.Stop();
             timerSwitch.Stop();
-            addSectTimer.Stop();
-            redLigth.BackColor = Color.Gray;
-            yellowLigth.BackColor = Color.Gray;
-            greenLigth.BackColor = Color.Gray;
-            addSectRigth.BackColor = Color.Gray;
+            RedLight.BackColor = Color.Gray;
+            YellowLight.BackColor = Color.Gray;
+            GreenLight.BackColor = Color.Gray;
+            AddSectRigth.BackColor = Color.Gray;
+            pedestrianGreen.BackColor = Color.Gray;
+            pedestrianRed.BackColor = Color.Gray;
+            tramLigth1.BackColor = Color.Gray;
+            tramLigth2.BackColor = Color.Gray;
+            tramLigth3.BackColor = Color.Gray;
+            tramLigth4.BackColor = Color.Gray;
+        }
+
+        public void button1_Click(object sender, EventArgs e)
+        {
+            offMode.Stop();
+            timerPop.Start();
+            timerSwitch.Start();
+            RedLight.BackColor = Color.Gray;
+            YellowLight.BackColor = Color.Gray;
+            GreenLight.BackColor = Color.Gray;
+            AddSectRigth.BackColor = Color.Gray;
+            pedestrianGreen.BackColor = Color.Gray;
+            pedestrianRed.BackColor = Color.Gray;
+            tramLigth1.BackColor = Color.Gray;
+            tramLigth2.BackColor = Color.Gray;
+            tramLigth3.BackColor = Color.Gray;
+            tramLigth4.BackColor = Color.Gray;
+        }
+
+        public void button2_Click(object sender, EventArgs e)
+        {
+            offMode.Start();
+            timerPop.Stop();
+            timerSwitch.Stop();
+            RedLight.BackColor = Color.Gray;
+            YellowLight.BackColor = Color.Gray;
+            GreenLight.BackColor = Color.Gray;
+            AddSectRigth.BackColor = Color.Gray;
+            pedestrianGreen.BackColor = Color.Gray;
+            pedestrianRed.BackColor = Color.Gray;
+            tramLigth1.BackColor = Color.Gray;
+            tramLigth2.BackColor = Color.Gray;
+            tramLigth3.BackColor = Color.Gray;
+            tramLigth4.BackColor = Color.Gray;
         }
     }
 }
