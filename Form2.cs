@@ -13,11 +13,12 @@ namespace TrafficLigths
     public partial class Form2 : Form
     {
         bool offMode = true;
-        
-        public Form2()
+       
+        TrafficLights mainForm;
+        public Form2(TrafficLights f)
         {
             InitializeComponent();
-
+            mainForm = f;
             
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -36,7 +37,7 @@ namespace TrafficLigths
         {
             if (offMode)
             {
-                Turn_On();
+                mainForm.Turn_On();
                 label2.Text = "Traffic ligths are on";
                 label2.ForeColor = Color.Green;
                 button1.BackColor = Color.Red;
@@ -45,7 +46,7 @@ namespace TrafficLigths
             }
             else 
             {
-                Turn_Off();
+                mainForm.Turn_Off();
                 label2.Text = "Traffic ligths are off";
                 label2.ForeColor = Color.Red;
                 button1.BackColor = Color.Green;

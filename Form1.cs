@@ -6,6 +6,8 @@ namespace TrafficLigths
 {
     public partial class TrafficLights : Form
     {
+        Form formSettings;
+
         public Timer timerSwitch = null;
         public Timer timerBlink = null;
         public Timer pedestrianTimerBlink = null;
@@ -29,7 +31,13 @@ namespace TrafficLigths
             InitializeTimerSwitch();
             InitializeTimerBlink();
             InitializePedestrianTimerBlink();
+            OpenSettings();
         }
+        private void OpenSettings()
+        {
+            formSettings.Show();
+        }
+
 
 
         public void InitializeTrafficLights()
@@ -45,8 +53,7 @@ namespace TrafficLigths
             tramLigth3.BackColor = Color.Gray;
             tramLigth4.BackColor = Color.Gray;
 
-            Form2 form2 = new Form2();
-            form2.Show();
+            formSettings = new Form2(this);
 
         }
         public void InitializeTimerPop() 
@@ -259,38 +266,6 @@ namespace TrafficLigths
             tramLigth4.BackColor = Color.Gray;
         }
 
-        public void button1_Click(object sender, EventArgs e)
-        {
-            offMode.Stop();
-            timerPop.Start();
-            timerSwitch.Start();
-            RedLight.BackColor = Color.Gray;
-            YellowLight.BackColor = Color.Gray;
-            GreenLight.BackColor = Color.Gray;
-            AddSectRigth.BackColor = Color.Gray;
-            pedestrianGreen.BackColor = Color.Gray;
-            pedestrianRed.BackColor = Color.Gray;
-            tramLigth1.BackColor = Color.Gray;
-            tramLigth2.BackColor = Color.Gray;
-            tramLigth3.BackColor = Color.Gray;
-            tramLigth4.BackColor = Color.Gray;
-        }
-
-        public void button2_Click(object sender, EventArgs e)
-        {
-            offMode.Start();
-            timerPop.Stop();
-            timerSwitch.Stop();
-            RedLight.BackColor = Color.Gray;
-            YellowLight.BackColor = Color.Gray;
-            GreenLight.BackColor = Color.Gray;
-            AddSectRigth.BackColor = Color.Gray;
-            pedestrianGreen.BackColor = Color.Gray;
-            pedestrianRed.BackColor = Color.Gray;
-            tramLigth1.BackColor = Color.Gray;
-            tramLigth2.BackColor = Color.Gray;
-            tramLigth3.BackColor = Color.Gray;
-            tramLigth4.BackColor = Color.Gray;
-        }
+        
     }
 }
